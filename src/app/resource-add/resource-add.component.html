@@ -1,0 +1,105 @@
+<p-toast></p-toast>
+
+<div class="surface-card p-4 shadow-2 border-round">
+    <p-button (click)="goHome()" label="Home" icon="pi pi-home"></p-button>
+</div>    
+    <br/>
+<div class="surface-card p-4 shadow-2 border-round">
+    <div class="grid p-fluid m-0">
+        <div class="col-12 md:col-4">
+            <p-autoComplete  [(ngModel)]="selectedProject" [suggestions]="filteredProjects" 
+            (completeMethod)="filterProject($event)" field="name" [dropdown]="true"
+            (onSelect)="onProject()">
+            <ng-template let-project pTemplate="item">
+                <div class="project-item">
+                    <div>{{project.name}}</div>
+                </div>
+            </ng-template>
+            </p-autoComplete>
+            <span>Projects</span>
+        </div>
+        <div class="col-12 md:col-4">
+            <p-autoComplete  [(ngModel)]="selectedResource" [suggestions]="filteredResources" 
+            (completeMethod)="filterResources($event)" field="name" [dropdown]="true">
+            <ng-template let-resource pTemplate="item">
+                <div class="resource-item">
+                    <div>{{resource.name}}</div>
+                </div>
+            </ng-template>
+            </p-autoComplete>
+            <span>Resources</span>
+        </div>
+        <div class="col-12 md:col-4">
+            <button (click)="onAssign()" pButton pRipple type="button" label="Assign" class="p-button-raised p-button-secondary"></button>
+        </div>
+    </div>
+    <div *ngIf="bankName" class="grid p-fluid m-0">
+        <div class="col-12 md:col-4">
+        </div>
+        <div class="col-12 md:col-4">
+        </div>
+        <div class="col-12 md:col-4">
+            <button pButton pRipple type="button" label={{bankName}} class="p-button-outlined p-button-secondary"></button>
+        </div>
+</div>
+
+<div class="card">
+
+<p-table #dt [value]="assignments" styleClass="p-datatable-sm" [rowHover]="true"
+    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [filterDelay]="0" [globalFilterFields]="['client','name']">
+    <ng-template pTemplate="caption">
+        <div class="table-header">
+            List of Resources    
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Search" /></span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="resource">
+                <div class="flex justify-content-between align-items-center">
+                    Name
+                    <p-sortIcon field="name"></p-sortIcon>
+                    <p-columnFilter type="text" field="name" display="menu" class="ml-auto"></p-columnFilter>
+                </div>                
+            </th>
+            <th pSortableColumn="projects">
+                <div class="flex justify-content-between align-items-center">
+                    Projects
+                    <p-sortIcon field="projects"></p-sortIcon>
+                    <p-columnFilter type="text" field="projects" display="menu" class="ml-auto"></p-columnFilter>
+                </div>                
+            </th>
+            <th pSortableColumn="clients">
+                <div class="flex justify-content-between align-items-center">
+                    Bank
+                    <p-sortIcon field="clients"></p-sortIcon>
+                    <p-columnFilter type="text" field="clients" display="menu" class="ml-auto"></p-columnFilter>
+                </div>                
+            </th>
+            <th><span>Modify</span></th>
+        </tr>
+    </ng-template>  
+    <ng-template pTemplate="body" let-assignment>
+        <tr class="p-selectable-row">
+            <td>
+                <span class="font-bold ml-2">{{assignment.resource.name}}</span>
+            </td>        
+            <td>
+                {{assignment.project.name}}
+            </td>       
+            <td>
+                {{assignment.client.name}}
+            </td> 
+            <td>
+                <button pButton pRipple type="button" icon="pi pi-external-link" class="p-button-rounded p-button-success p-button-text"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>

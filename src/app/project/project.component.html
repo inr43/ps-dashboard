@@ -1,0 +1,67 @@
+
+<div class="surface-card p-4 shadow-2 border-round">
+<!--    <div class="text-3xl font-medium text-pink-900 mb-3">Projects</div>
+    <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
+    <div style="height: 150px" class="border-2 border-dashed surface-border"></div>-->
+    <p-button (click)="goHome()" label="Home" icon="pi pi-home"></p-button>
+
+</div>
+<p-table 
+        [value]="projects" #dt responsiveLayout="scroll"
+        [paginator]="true"     [rows]="5"  [showCurrentPageReport]="true"
+        [filterDelay]="0" [globalFilterFields]="['name']">    <ng-template pTemplate="caption">
+        <div class="table-header">
+            List of Projects    
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" 
+                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Search" /></span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+            <th>
+                Project
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Resource
+            </th>
+        </tr>
+    </ng-template>  
+    <ng-template pTemplate="body" let-project>
+        <tr>
+            <td>
+                {{project.client.name}}
+            </td>        
+            <td>
+                {{project.name}}
+            </td>        
+            <td>
+                {{project.status}}
+            </td>        
+            <td>
+                Hi            </td>        
+            <td>
+                <button pButton pRipple type="button" icon="pi pi-external-link" class="p-button-rounded p-button-success p-button-text"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-accordion>
+    <p-accordionTab header="Add New Project">
+        <div *ngIf="newClient" class="p-toolbar-group-left">
+            <p-button (click)="newClient=false" label="New" icon="pi pi-plus"></p-button>
+        </div>
+        <div *ngIf="!newClient">
+            <app-projectform
+                (saved)="onSave($event)">
+            </app-projectform>
+        </div>
+        </p-accordionTab>
+</p-accordion>
