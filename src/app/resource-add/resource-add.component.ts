@@ -27,6 +27,9 @@ export class ResourceAddComponent implements OnInit {
   loading : boolean = true;
   bankName : string;
 
+  isDashboard : boolean = true;
+  selectedAssignment : Assignment;
+
   constructor(private projectService : ProjectService,
               private resourceService : ResourceService,
               private messageService: MessageService,
@@ -146,6 +149,12 @@ export class ResourceAddComponent implements OnInit {
     return true
   }
 
+  viewResource(assignment : Assignment) { 
+    this.isDashboard=false;
+    this.selectedAssignment = assignment;
+    console.log("Assignment "+assignment.project.name)
+  }
+ 
   onProject() {
     this.bankName = this.selectedProject.client.name
   }

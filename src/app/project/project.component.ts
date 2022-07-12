@@ -15,6 +15,7 @@ export class ProjectComponent implements OnInit {
   saved : boolean=true;
   loading : boolean=true;
   projects : Project[] = []
+  isDashboard : boolean=true
 
   constructor(private projectService : ProjectService ,
               private route : Router) { }
@@ -34,10 +35,11 @@ export class ProjectComponent implements OnInit {
     });
 
   }
+  
+  projectClicked(project :Project) {
+    this.isDashboard=false
+  }
 
-  getResources() { 
-    console.log("getresources")
-    return "muthu "} 
   goHome() {
     this.route.navigateByUrl('/')
   }

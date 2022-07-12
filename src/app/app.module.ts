@@ -18,9 +18,14 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {CalendarModule} from 'primeng/calendar';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
+import {ProgressBarModule} from 'primeng/progressbar';
 import { ProjectformComponent } from './projectform/projectform.component';
 import { ProjectService } from './services/project.service';
 import { ResourceAddComponent } from './resource-add/resource-add.component';
+import { PipelineComponent } from './pipeline/pipeline.component';
+import { ResourceDashboardComponent } from './resource-dashboard/resource-dashboard.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { ChallengesComponent } from './challenges/challenges.component';
 
 const UX_MODULE = [    
   ButtonModule,
@@ -31,7 +36,8 @@ const UX_MODULE = [
   InputTextareaModule,
   CalendarModule,
   ToastModule,
-  TableModule
+  TableModule,
+  ProgressBarModule
 ]
 
 @NgModule({
@@ -41,6 +47,10 @@ const UX_MODULE = [
     ProjectComponent,
     ProjectformComponent,
     ResourceAddComponent,
+    PipelineComponent,
+    ResourceDashboardComponent,
+    DocumentationComponent,
+    ChallengesComponent,
   ],
   imports: [
     BrowserModule,

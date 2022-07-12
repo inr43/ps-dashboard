@@ -17,6 +17,22 @@ export class MainComponent implements OnInit {
     this.route.navigateByUrl('project')
   }
 
+  pipelineDashboard() {
+    this.route.navigateByUrl('pipeline')
+  }
+
+  documentationDashboard() {
+    this.route.navigateByUrl('documentation')
+  }
+
+  resourcesDashboard() {
+    this.route.navigateByUrl('resources')
+  }
+
+  challengesDashboard() {
+    this.route.navigateByUrl('challenges')
+  }
+  
   resourceAssignment() {
     this.route.navigateByUrl('resource')
   }

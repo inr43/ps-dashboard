@@ -6,12 +6,14 @@
     <p-button (click)="goHome()" label="Home" icon="pi pi-home"></p-button>
 
 </div>
-<p-table 
+
+<p-table *ngIf="isDashboard" 
         [value]="projects" #dt responsiveLayout="scroll"
-        [paginator]="true"     [rows]="5"  [showCurrentPageReport]="true"
-        [filterDelay]="0" [globalFilterFields]="['name']">    <ng-template pTemplate="caption">
+        [paginator]="true"  [rows]="5"  [showCurrentPageReport]="true"
+        [filterDelay]="0" [globalFilterFields]="['client.name','name']">
+    <ng-template pTemplate="caption">
         <div class="table-header">
-            List of Projects    
+            Projects
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" 
@@ -19,36 +21,22 @@
                     placeholder="Search" /></span>
         </div>
     </ng-template>
-    <ng-template pTemplate="header">
+        <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
-            <th>
-                Project
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Resource
-            </th>
+            <th pSortableColumn="name">Bank<p-sortIcon field="name"></p-sortIcon></th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Resources</th>
         </tr>
-    </ng-template>  
+    </ng-template>
     <ng-template pTemplate="body" let-project>
         <tr>
+            <td>{{project.client.name}}</td>
             <td>
-                {{project.client.name}}
-            </td>        
-            <td>
-                {{project.name}}
-            </td>        
-            <td>
-                {{project.status}}
-            </td>        
-            <td>
-                Hi            </td>        
-            <td>
-                <button pButton pRipple type="button" icon="pi pi-external-link" class="p-button-rounded p-button-success p-button-text"></button>
+                <button (click)="projectClicked(project)" pButton pRipple type="button" label="{{project.name}}" class="p-button-text"></button>
             </td>
+            <td>{{project.status}}</td>
+            <td>{{project.resources}}</td>
         </tr>
     </ng-template>
 </p-table>

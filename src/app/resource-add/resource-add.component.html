@@ -4,8 +4,8 @@
     <p-button (click)="goHome()" label="Home" icon="pi pi-home"></p-button>
 </div>    
     <br/>
-<div class="surface-card p-4 shadow-2 border-round">
-    <div class="grid p-fluid m-0">
+<div  class="surface-card p-4 shadow-2 border-round">
+    <div *ngIf="isDashboard" class="grid p-fluid m-0">
         <div class="col-12 md:col-4">
             <p-autoComplete  [(ngModel)]="selectedProject" [suggestions]="filteredProjects" 
             (completeMethod)="filterProject($event)" field="name" [dropdown]="true"
@@ -43,63 +43,59 @@
         </div>
 </div>
 
-<div class="card">
-
-<p-table #dt [value]="assignments" styleClass="p-datatable-sm" [rowHover]="true"
-    [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
-    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [filterDelay]="0" [globalFilterFields]="['client','name']">
-    <ng-template pTemplate="caption">
-        <div class="table-header">
-            List of Resources    
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" 
-                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
-                    placeholder="Search" /></span>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
+<div *ngIf="isDashboard" class="card">
+  <p-table  
+        [value]="assignments" #dt responsiveLayout="scroll"
+        [paginator]="true"  [rows]="5"  [showCurrentPageReport]="true"
+        [filterDelay]="0" [globalFilterFields]="['resource.name','project.name','bank']">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="dt.clear()"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="resource">
-                <div class="flex justify-content-between align-items-center">
-                    Name
-                    <p-sortIcon field="name"></p-sortIcon>
-                    <p-columnFilter type="text" field="name" display="menu" class="ml-auto"></p-columnFilter>
-                </div>                
+            <th>
+                Name
+                <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
             </th>
-            <th pSortableColumn="projects">
-                <div class="flex justify-content-between align-items-center">
-                    Projects
-                    <p-sortIcon field="projects"></p-sortIcon>
-                    <p-columnFilter type="text" field="projects" display="menu" class="ml-auto"></p-columnFilter>
-                </div>                
+            <th>Project
+                <p-columnFilter type="text" field="project" display="menu"></p-columnFilter>
             </th>
-            <th pSortableColumn="clients">
-                <div class="flex justify-content-between align-items-center">
-                    Bank
-                    <p-sortIcon field="clients"></p-sortIcon>
-                    <p-columnFilter type="text" field="clients" display="menu" class="ml-auto"></p-columnFilter>
-                </div>                
+            <th>Bank
+                <p-columnFilter type="text" field="bank" display="menu"></p-columnFilter>
             </th>
-            <th><span>Modify</span></th>
+            <th>View
+            </th>
         </tr>
-    </ng-template>  
+    </ng-template>
     <ng-template pTemplate="body" let-assignment>
-        <tr class="p-selectable-row">
+        <tr>
+            <td>{{assignment.resource.name}}</td>
             <td>
-                <span class="font-bold ml-2">{{assignment.resource.name}}</span>
-            </td>        
+                <button pButton pRipple type="button" label="{{assignment.project.name}}" class="p-button-text"></button>
+            </td>
+            <td>{{assignment.client.name}}</td>
             <td>
-                {{assignment.project.name}}
-            </td>       
-            <td>
-                {{assignment.client.name}}
-            </td> 
-            <td>
-                <button pButton pRipple type="button" icon="pi pi-external-link" class="p-button-rounded p-button-success p-button-text"></button>
+                <button (click)="viewResource(assignment)" pButton pRipple type="button" icon="pi pi-external-link" class="p-button-rounded p-button-success p-button-text"></button>
             </td>
         </tr>
     </ng-template>
-</p-table>
+ </p-table>
 </div>
+
+<div *ngIf="!isDashboard" class="surface-card p-4 shadow-2 border-round">
+    <div *ngIf="selectedAssignment">
+        <h2> {{selectedAssignment.project.name}} </h2>
+        <h2> {{selectedAssignment.project.status}} </h2>
+        <h3> {{selectedAssignment.client.name}} </h3>
+        <h3> {{selectedAssignment.resource.name}} </h3>
+    </div>
+    <p-button (click)="isDashboard=true" label="Close" icon="pi pi-times"></p-button>
+    <h4>We need to work on , what content should go in here</h4>
+</div>    
+    <br/>
