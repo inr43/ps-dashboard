@@ -115,7 +115,7 @@ export class ResourceAddComponent implements OnInit {
           project  : this.selectedProject.id,
           client   : this.selectedProject.client.id
         }
-        if ( this.checkAssignment(this.selectedProject, this.selectedResource) )
+        if ( this.checkAssignment(this.selectedResource.id+this.selectedProject.id) )
           this.assignproject(assignment)
     }
     else{
@@ -134,14 +134,14 @@ export class ResourceAddComponent implements OnInit {
         });
   }
 
-  checkAssignment(project, resource) {
+  checkAssignment(key) {
     for ( let i in this.assignments)
     {
-/*       console.log( "assigned resource id "+ this.assignments[i].resource.id+','+this.assignments[i].project.id ) 
-      console.log( "selected resource id "+ resource.id + ","+project.id)
- */
-      if ( this.assignments[i].resource.id == resource.id)
-      { 
+      const var1 = this.assignments[i].resource.id+this.assignments[i].project.id
+
+      if ( key === var1 )
+      {
+        console.log( "Equal "+key + '=' + var1 ) 
         this.addMessage(false, "Resource already assigned to this project")
         return false
       }
@@ -168,5 +168,4 @@ export class ResourceAddComponent implements OnInit {
       severity: state ? 'success' : 'error', 
       summary: state ? 'Success!' : 'error', 
       detail: log})      }
-
 }
